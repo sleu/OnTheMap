@@ -25,7 +25,6 @@ class LoginView: UIView {
     
     override init(frame: CGRect){
         super.init(frame: frame)
-        
         emailProperties()
         passwordProperties()
         loginButtonProperties()
@@ -52,7 +51,6 @@ class LoginView: UIView {
     }
     
     func loginButtonProperties() {
-        //view.addTarget(self, action: "loginPressed", for: .touchDown) TODO
         loginButton.setTitle(Text.login.rawValue, for: UIControl.State.normal)
         loginButton.setTitleColor(UIColor.white, for: UIControl.State.normal)
         loginButton.backgroundColor = UIColor.blue
@@ -61,7 +59,7 @@ class LoginView: UIView {
     }
     
     func signupLabelProperties() {
-        signupLabel.text = "Don't have an account? Sign Up"
+        signupLabel.text = "Don't have an account? Sign Up" //TODO sign up link
         signupLabel.textAlignment = .center
     }
     
