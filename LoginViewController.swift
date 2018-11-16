@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController {
 
     var loginView: LoginView {return self.view as! LoginView}
     var emailField: UITextField {return loginView.emailField}
@@ -27,19 +27,24 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     @objc func loginPressed() {
         guard !emailField.text!.isEmpty && !passwordField.text!.isEmpty else {
-            //show popup is empty
+            self.displayNotification("Email or Password is missing")
             return
         }
         UdacClient.sharedInstance.authenticateUser(emailField.text!, passwordField.text!) { (success, errorMessage) in
             if success {
-                //continue
+                print("success!")
             } else {
-                //display an error
+                DispatchQueue.main.async {
+                    self.displayNotification("Incorrect Login")
+                }
+                print(errorMessage!)
             }
             
         }
-        
-        
     }
-    
+    func displayNotification(_ error: String){
+        let alert = UIAlertController(title: "ERROR", message: error, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true)
+    }
 }

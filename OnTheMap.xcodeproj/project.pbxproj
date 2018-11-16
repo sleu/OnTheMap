@@ -13,6 +13,10 @@
 		A9B99ECC219B8E2800D78218 /* TextDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B99ECB219B8E2800D78218 /* TextDelegate.swift */; };
 		A9B99ECE219BA31900D78218 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B99ECD219BA31900D78218 /* LoginView.swift */; };
 		A9B99ED1219CB4F700D78218 /* UdacClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B99ED0219CB4F700D78218 /* UdacClient.swift */; };
+		A9B99ED5219F746600D78218 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B99ED4219F746600D78218 /* ParseClient.swift */; };
+		A9B99ED7219F757B00D78218 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B99ED6219F757B00D78218 /* MainViewController.swift */; };
+		A9B99EDB219F7EFD00D78218 /* MapsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B99EDA219F7EFD00D78218 /* MapsViewController.swift */; };
+		A9B99EDD219F7F1F00D78218 /* TableTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B99EDC219F7F1F00D78218 /* TableTabViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,10 @@
 		A9B99ECB219B8E2800D78218 /* TextDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDelegate.swift; sourceTree = "<group>"; };
 		A9B99ECD219BA31900D78218 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		A9B99ED0219CB4F700D78218 /* UdacClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UdacClient.swift; sourceTree = "<group>"; };
+		A9B99ED4219F746600D78218 /* ParseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
+		A9B99ED6219F757B00D78218 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		A9B99EDA219F7EFD00D78218 /* MapsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsViewController.swift; sourceTree = "<group>"; };
+		A9B99EDC219F7F1F00D78218 /* TableTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTabViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +78,10 @@
 			isa = PBXGroup;
 			children = (
 				A9B99EC4219B5BAA00D78218 /* LoginViewController.swift */,
+				A9B99ED6219F757B00D78218 /* MainViewController.swift */,
+				A9B99EDA219F7EFD00D78218 /* MapsViewController.swift */,
 				A9B99ECB219B8E2800D78218 /* TextDelegate.swift */,
+				A9B99EDC219F7F1F00D78218 /* TableTabViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -95,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				A9B99ED0219CB4F700D78218 /* UdacClient.swift */,
+				A9B99ED4219F746600D78218 /* ParseClient.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -168,9 +180,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9B99EDB219F7EFD00D78218 /* MapsViewController.swift in Sources */,
+				A9B99ED7219F757B00D78218 /* MainViewController.swift in Sources */,
+				A9B99ED5219F746600D78218 /* ParseClient.swift in Sources */,
 				A9B99EC5219B5BAA00D78218 /* LoginViewController.swift in Sources */,
 				A9B99ED1219CB4F700D78218 /* UdacClient.swift in Sources */,
 				A9B99ECC219B8E2800D78218 /* TextDelegate.swift in Sources */,
+				A9B99EDD219F7F1F00D78218 /* TableTabViewController.swift in Sources */,
 				A9B99ECE219BA31900D78218 /* LoginView.swift in Sources */,
 				A9B99EAD219A15CE00D78218 /* AppDelegate.swift in Sources */,
 			);

@@ -7,12 +7,13 @@
 //
 
 import Foundation
+import UIKit
 
 class UdacClient: NSObject {
     
     var session = URLSession.shared
     var sessionID: String? = nil
-    var userID: Int? = nil
+    var accountKey: Int? = nil
     let udacUrl = "https://www.udacity.com/api/session"
     static let sharedInstance = UdacClient()
     
@@ -35,12 +36,14 @@ class UdacClient: NSObject {
             /* GUARD: Was there an error? */
             guard (error == nil) else {
                 self.displayError("There was an error with your request: \(String(describing: error))")
+                completionHandlerForAuth(false, "Login Error")
                 return
             }
             
             /* GUARD: Was there any data returned? */
             guard let data = data else {
                 self.displayError("No data was returned by the request!")
+                completionHandlerForAuth(false, "Login Error")
                 return
             }
             
@@ -50,9 +53,20 @@ class UdacClient: NSObject {
                 parsedResult = try JSONSerialization.jsonObject(with: usableData, options: .allowFragments) as AnyObject
             } catch {
                 self.displayError("Could not parse the data as JSON: '\(usableData)'")
+                completionHandlerForAuth(false, "Login Error")
                 return
             }
+            
+            let account = parsedResult["account"] as? [AnyHashable: Any]
+            self.accountKey = Int(account!["key"] as! String)
+            let session = parsedResult["session"] as? [AnyHashable: Any]
+            self.sessionID = session!["id"] as? String
+            
+            
+            
             print(parsedResult)
+            print(self.accountKey!)
+            print(self.sessionID!)
             
         }
         task.resume()
