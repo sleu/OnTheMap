@@ -13,14 +13,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         //Initialize the window
         window = UIWindow.init(frame: UIScreen.main.bounds)
         
         if let window = window {
-            let mainVC = MainViewController()
+            let mainVC = LoginViewController()
             window.rootViewController = mainVC
             window.backgroundColor = UIColor.white
             window.makeKeyAndVisible()

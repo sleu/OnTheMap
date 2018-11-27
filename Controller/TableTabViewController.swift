@@ -11,7 +11,6 @@ import UIKit
 class TableTabViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Table"
         self.view.backgroundColor = UIColor.blue
     }
     
