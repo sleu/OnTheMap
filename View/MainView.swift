@@ -11,6 +11,7 @@ import UIKit
 class MainView: UIView {
     
     let title = "On the Map"
+    static let shared = MapsViewController()
     
     func logOutButton() -> UIBarButtonItem {
         let logout = UIBarButtonItem(title: "LOGOUT", style: .plain, target: nil, action: nil)
@@ -20,7 +21,7 @@ class MainView: UIView {
     func refreshButton() -> UIBarButtonItem {
         let refreshButton = UIButton()
         refreshButton.setImage(UIImage(named: "icon_refresh"), for: .normal)
-        refreshButton.addTarget(MainViewController.self, action: #selector(MainViewController.refresh), for: .touchUpInside)
+        refreshButton.addTarget(MainView.shared, action: #selector(MainView.shared.refreshMap), for: .touchUpInside)
         refreshButton.sizeToFit()
         let refresh = UIBarButtonItem(customView: refreshButton)
         

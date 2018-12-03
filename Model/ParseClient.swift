@@ -94,6 +94,14 @@ class ParseClient: NSObject {
         task.resume()
     }
     
+    func submitStudent(){
+        
+    }
+    
+    func updateStudent(){
+        
+    }
+    
     func prepareUrl(_ params: String) -> URLRequest {
         let studentsUrl = parseUrl + params
         var request = URLRequest(url: URL(string: studentsUrl)!)

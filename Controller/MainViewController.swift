@@ -50,7 +50,8 @@ class MainViewController: UITabBarController {
     }
     
     @objc static func refresh(){
-        print("refresh")
+        //MapsViewController.update()
+        print("refresh1")
     }
     
     @objc static func add() {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A9A3DC8821B5ED4C00F6F7D6 /* PostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A3DC8721B5ED4C00F6F7D6 /* PostingViewController.swift */; };
 		A9B582B621AC9D1F0073EFAF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9B582B521AC9D1F0073EFAF /* MapKit.framework */; };
 		A9B582BA21ACA2000073EFAF /* StudentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B582B921ACA2000073EFAF /* StudentInfo.swift */; };
 		A9B582BC21ACB9C20073EFAF /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B582BB21ACB9C20073EFAF /* Storage.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A9A3DC8721B5ED4C00F6F7D6 /* PostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingViewController.swift; sourceTree = "<group>"; };
 		A9B582B521AC9D1F0073EFAF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		A9B582B921ACA2000073EFAF /* StudentInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentInfo.swift; sourceTree = "<group>"; };
 		A9B582BB21ACB9C20073EFAF /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				A9B99EC4219B5BAA00D78218 /* LoginViewController.swift */,
 				A9B99EDA219F7EFD00D78218 /* MapsViewController.swift */,
 				A9B99EDC219F7F1F00D78218 /* TableTabViewController.swift */,
+				A9A3DC8721B5ED4C00F6F7D6 /* PostingViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 				A9B582BA21ACA2000073EFAF /* StudentInfo.swift in Sources */,
 				A9B99ED7219F757B00D78218 /* MainViewController.swift in Sources */,
 				A9B99ED5219F746600D78218 /* ParseClient.swift in Sources */,
+				A9A3DC8821B5ED4C00F6F7D6 /* PostingViewController.swift in Sources */,
 				A9B99EE121A4A36700D78218 /* MainView.swift in Sources */,
 				A9B99EC5219B5BAA00D78218 /* LoginViewController.swift in Sources */,
 				A9B99ED1219CB4F700D78218 /* UdacClient.swift in Sources */,
