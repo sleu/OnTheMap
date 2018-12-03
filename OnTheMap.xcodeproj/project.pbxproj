@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		A9A3DC8821B5ED4C00F6F7D6 /* PostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A3DC8721B5ED4C00F6F7D6 /* PostingViewController.swift */; };
+		A9B1070D21B5F05000B7211D /* LoginViewControllerout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B1070C21B5F05000B7211D /* LoginViewControllerout.swift */; };
 		A9B582B621AC9D1F0073EFAF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9B582B521AC9D1F0073EFAF /* MapKit.framework */; };
 		A9B582BA21ACA2000073EFAF /* StudentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B582B921ACA2000073EFAF /* StudentInfo.swift */; };
 		A9B582BC21ACB9C20073EFAF /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B582BB21ACB9C20073EFAF /* Storage.swift */; };
 		A9B99EAD219A15CE00D78218 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B99EAC219A15CE00D78218 /* AppDelegate.swift */; };
 		A9B99EB4219A15D000D78218 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9B99EB3219A15D000D78218 /* Assets.xcassets */; };
-		A9B99EC5219B5BAA00D78218 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B99EC4219B5BAA00D78218 /* LoginViewController.swift */; };
 		A9B99ECE219BA31900D78218 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B99ECD219BA31900D78218 /* LoginView.swift */; };
 		A9B99ED1219CB4F700D78218 /* UdacClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B99ED0219CB4F700D78218 /* UdacClient.swift */; };
 		A9B99ED5219F746600D78218 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B99ED4219F746600D78218 /* ParseClient.swift */; };
@@ -25,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		A9A3DC8721B5ED4C00F6F7D6 /* PostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingViewController.swift; sourceTree = "<group>"; };
+		A9B1070C21B5F05000B7211D /* LoginViewControllerout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewControllerout.swift; sourceTree = "<group>"; };
 		A9B582B521AC9D1F0073EFAF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		A9B582B921ACA2000073EFAF /* StudentInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentInfo.swift; sourceTree = "<group>"; };
 		A9B582BB21ACB9C20073EFAF /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
@@ -32,7 +33,6 @@
 		A9B99EAC219A15CE00D78218 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A9B99EB3219A15D000D78218 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A9B99EB8219A15D000D78218 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A9B99EC4219B5BAA00D78218 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = ../LoginViewController.swift; sourceTree = "<group>"; };
 		A9B99ECD219BA31900D78218 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		A9B99ED0219CB4F700D78218 /* UdacClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UdacClient.swift; sourceTree = "<group>"; };
 		A9B99ED4219F746600D78218 /* ParseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
@@ -95,8 +95,8 @@
 		A9B99EBE219B56C700D78218 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A9B1070C21B5F05000B7211D /* LoginViewControllerout.swift */,
 				A9B99ED6219F757B00D78218 /* MainViewController.swift */,
-				A9B99EC4219B5BAA00D78218 /* LoginViewController.swift */,
 				A9B99EDA219F7EFD00D78218 /* MapsViewController.swift */,
 				A9B99EDC219F7F1F00D78218 /* TableTabViewController.swift */,
 				A9A3DC8721B5ED4C00F6F7D6 /* PostingViewController.swift */,
@@ -209,11 +209,11 @@
 				A9B99EDB219F7EFD00D78218 /* MapsViewController.swift in Sources */,
 				A9B582BC21ACB9C20073EFAF /* Storage.swift in Sources */,
 				A9B582BA21ACA2000073EFAF /* StudentInfo.swift in Sources */,
+				A9B1070D21B5F05000B7211D /* LoginViewControllerout.swift in Sources */,
 				A9B99ED7219F757B00D78218 /* MainViewController.swift in Sources */,
 				A9B99ED5219F746600D78218 /* ParseClient.swift in Sources */,
 				A9A3DC8821B5ED4C00F6F7D6 /* PostingViewController.swift in Sources */,
 				A9B99EE121A4A36700D78218 /* MainView.swift in Sources */,
-				A9B99EC5219B5BAA00D78218 /* LoginViewController.swift in Sources */,
 				A9B99ED1219CB4F700D78218 /* UdacClient.swift in Sources */,
 				A9B99EDD219F7F1F00D78218 /* TableTabViewController.swift in Sources */,
 				A9B99ECE219BA31900D78218 /* LoginView.swift in Sources */,

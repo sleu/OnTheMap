@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:OnTheMap.xcodeproj">
+      location = "group:/Users/seanleu/Dropbox/Workspace 2.0/OnTheMap/Controller/LoginViewControllerout.swift">
+   </FileRef>
+   <FileRef
+      location = "self:">
    </FileRef>
 </Workspace>
