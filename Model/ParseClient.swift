@@ -18,6 +18,11 @@ class ParseClient: NSObject {
     let limit = 100
     let order = "-UpdatedAt"
     static let sharedInstance = ParseClient()
+    private enum Text: String{
+        case get = "GET"
+        case post = "POST"
+        case put = "PUT"
+    }
     
     override init() {
         super.init()
@@ -28,8 +33,7 @@ class ParseClient: NSObject {
     }
     
     func getStudents(completionHandlerStudents: @escaping (_ success: Bool, _ students: [StudentInfo]?, _ error: String?) -> Void) {
-        
-        let request = prepareUrl("?limit=\(limit)&order=\(order)")
+        let request = prepareUrl(parseUrl, "?limit=\(limit)&order=\(order)", Text.get.rawValue)
         let task = session.dataTask(with: request) {data, response, error in
             /* GUARD: Was there an error? */
             guard (error == nil) else {
@@ -63,7 +67,7 @@ class ParseClient: NSObject {
     }
     
     func getStudent(_ uniqueKey: Int, completionHandlerStudent: @escaping (_ success: Bool, _ student: StudentInfo?, _ error: String?) -> Void) {
-        let request = prepareUrl("?where={\"uniqueKey\":\"\(uniqueKey)\"}")
+        let request = prepareUrl(parseUrl, "?where={\"uniqueKey\":\"\(uniqueKey)\"}", Text.get.rawValue)
         let task = session.dataTask(with: request) {data, response, error in
             /* GUARD: Was there an error? */
             guard (error == nil) else {
@@ -94,18 +98,82 @@ class ParseClient: NSObject {
         task.resume()
     }
     
-    func submitStudent(){
-        
+    func newPostStudent(student: StudentInfo, completionHandlerPost: @escaping (_ success: Bool, _ error: String?) -> Void) {
+        //TODO: prepare studentinfo data
+        let request = prepareUrl(parseUrl, "{\"uniqueKey\": \"\(student.uniqueKey)\", \"firstName\": \"\(student.firstName)\", \"lastName\": \"\(student.lastName)\",\"mapString\": \"\(student.mapString)\", \"mediaURL\": \"\(student.mediaURL)\",\"latitude\": \(student.latitude), \"longitude\": \(student.longitude)}", Text.post.rawValue)
+        let task = session.dataTask(with: request) {data, response, error in
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                self.displayError("There was an error with your request: \(String(describing: error))")
+                completionHandlerPost(false, error as? String)
+                return
+            }
+            
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                self.displayError("No data was returned by the request!")
+                completionHandlerPost(false, "No data returned")
+                return
+            }
+            
+            do{ //TODO: complete
+                let results = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: AnyObject]
+                if let parsedResults = results["results"]{
+                    for details in parsedResults as! [[String: AnyObject]]{
+                        completionHandlerPost(true, nil)
+                    }
+                }
+            }
+            catch {
+                completionHandlerPost(false, error as? String)
+            }
+        }
+        task.resume()
     }
     
-    func updateStudent(){
-        
+    func updatePutStudent(student: StudentInfo, completionHandlerPut: @escaping (_ success: Bool, _ error: String?) -> Void){
+        let putURL = parseUrl + student.objectId
+        let request = prepareUrl(putURL, "{\"uniqueKey\": \"\(student.uniqueKey)\", \"firstName\": \"\(student.firstName)\", \"lastName\": \"\(student.lastName)\",\"mapString\": \"\(student.mapString)\", \"mediaURL\": \"\(student.mediaURL)\",\"latitude\": \(student.latitude), \"longitude\": \(student.longitude)}", Text.put.rawValue)
+        let task = session.dataTask(with: request) {data, response, error in
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                self.displayError("There was an error with your request: \(String(describing: error))")
+                completionHandlerPut(false, error as? String)
+                return
+            }
+            
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                self.displayError("No data was returned by the request!")
+                completionHandlerPut(false, "No data returned")
+                return
+            }
+            
+            do{ //TODO: complete
+                let results = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: AnyObject]
+                if let parsedResults = results["results"]{
+                    for details in parsedResults as! [[String: AnyObject]]{
+                        completionHandlerPut(true, nil)
+                    }
+                }
+            }
+            catch {
+                completionHandlerPut(false, error as? String)
+            }
+        }
+        task.resume()
     }
     
-    func prepareUrl(_ params: String) -> URLRequest {
-        let studentsUrl = parseUrl + params
+    func prepareUrl(_ url: String, _ params: String, _ method: String) -> URLRequest {
+        var studentsUrl = url
         var request = URLRequest(url: URL(string: studentsUrl)!)
-        request.httpMethod = "GET"
+        if method == Text.get.rawValue{
+            studentsUrl = studentsUrl + params
+            request = URLRequest(url: URL(string: studentsUrl)!)
+        } else {
+            request.httpBody = params.data(using: String.Encoding.utf8)
+        }
+        request.httpMethod = method
         request.addValue(appId, forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue(apiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         return request

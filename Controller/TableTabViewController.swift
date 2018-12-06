@@ -52,4 +52,8 @@ class TableTabViewController: UIViewController, UITableViewDelegate, UITableView
         cell.detailTextLabel?.text = student.mediaURL
         return cell
     }
+    func update(){
+        arrayData = Storage.data
+        self.tableView.reloadData()
+    }
 }

@@ -11,12 +11,11 @@ import UIKit
 class MainViewController: UITabBarController {
     
     let mainView = MainView()
-    
+    let mapTabController = MapsViewController()
+    let tableTabController = TableTabViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let mapTabController = MapsViewController()
-        let tableTabController = TableTabViewController()
         
         mapTabController.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "icon_mapview-deselected"), selectedImage: UIImage(named: "icon_mapview-selected"))
         tableTabController.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "icon_listview-deselected"), selectedImage: UIImage(named: "icon_listview-selected"))
@@ -28,38 +27,53 @@ class MainViewController: UITabBarController {
         loadNavigationBar()
     }
     
-    func loadNavigationBar() { //MAY NEED TO REPEAT FOR OTHER BUTTONS IF THEY CALL ON THE CLIENT 
+    func loadNavigationBar() {
+        let addButton = mainView.addButton()
+        addButton.addTarget(self, action: #selector(add), for: .touchUpInside)
+        let addButtonItem = UIBarButtonItem(customView: addButton)
+        
+        let refreshButton = mainView.refreshButton()
+        refreshButton.addTarget(self, action: #selector(refresh), for: .touchUpInside)
+        let refreshButtonItem = UIBarButtonItem(customView: refreshButton)
+        
         let logOutButton = mainView.logOutButton()
         logOutButton.target = self
         logOutButton.action = #selector(logout)
         self.navigationItem.leftBarButtonItem = logOutButton
-        self.navigationItem.rightBarButtonItems = [mainView.addButton(), mainView.refreshButton()]
+        self.navigationItem.rightBarButtonItems = [addButtonItem, refreshButtonItem]
         self.navigationItem.title = mainView.title
     }
     
     @objc func logout() {
-        print("logout")
         UdacClient.sharedInstance.logout() { (success, errorMessage) in
             if success {
                 DispatchQueue.main.async {
                     self.goToLogin()}
             } else {
-                print ("unable to logout?!?!")
+                self.displayNotification("Unable to Logout")
             }
         }
     }
     
-    @objc static func refresh(){
-        //MapsViewController.update()
-        print("refresh1")
+    @objc func add() {
+        let newVC = PostingViewController()
+        newVC.newStudent = true
+        var navController: UINavigationController?
+        navController = UINavigationController(rootViewController: newVC)
+        self.present(navController!, animated: true, completion: nil)
     }
     
-    @objc static func add() {
-        
-        print("add")
+    @objc func refresh(){ //TODO: confirm function after add
+        mapTabController.update()
+        tableTabController.update()
     }
     
     func goToLogin() {
         self.dismiss(animated: true, completion: nil)
+    }
+    func displayNotification(_ error: String){
+        let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true)
     }
 }

@@ -74,14 +74,11 @@ class MapsViewController: UIViewController, MKMapViewDelegate{
         self.mapView.addAnnotations(annotations)
     }
     
-    @objc func refreshMap(){
-        self.update()
-        print("refresh")
-    }
-    
     func displayNotification(_ error: String){
         let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         self.present(alert, animated: true)
     }
+    
+    //TODO: OPEN PIN TO WEBSITE
 }
