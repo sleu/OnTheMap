@@ -50,21 +50,18 @@ class MainViewController: UITabBarController {
                 DispatchQueue.main.async {
                     self.goToLogin()}
             } else {
-                self.displayNotification("Unable to Logout")
+                self.displayNotification(errorMessage!)
             }
         }
     }
     
     @objc func add() {
         let newVC = PostingViewController()
-        newVC.newStudent = true
-        var navController: UINavigationController?
-        navController = UINavigationController(rootViewController: newVC)
-        self.present(navController!, animated: true, completion: nil)
+        self.navigationController?.pushViewController(newVC, animated: true)
     }
     
-    @objc func refresh(){ //TODO: confirm function after add
-        mapTabController.update()
+    @objc func refresh(){
+        mapTabController.loadData()
         tableTabController.update()
     }
     

@@ -14,7 +14,10 @@ class UdacClient: NSObject {
     var session = URLSession.shared
     var sessionID: String? = nil
     var accountKey: Int? = nil
-    let udacUrl = "https://www.udacity.com/api/session"
+    let udacUrl = "https://onthemap-api.udacity.com/v1/session"
+    let udacUserUrl = "https://onthemap-api.udacity.com/v1/users/"
+    //let noStudent: StudentInfo = nil
+    //let udacUrl = "https://www.udacity.com/api/session"
     static let sharedInstance = UdacClient()
     
     override init() {
@@ -46,7 +49,6 @@ class UdacClient: NSObject {
                 completionHandlerForAuth(false, "Login Error")
                 return
             }
-            
             let usableData = self.subsetData(data)
             let parsedResult: AnyObject!
             do {
@@ -57,16 +59,19 @@ class UdacClient: NSObject {
                 return
             }
             let account = parsedResult["account"] as? [AnyHashable: Any]
+            if account == nil {
+                completionHandlerForAuth(false, "Invalid Login")
+                return
+            }
+            
             self.accountKey = Int(account!["key"] as! String)
             let registered = Bool(account!["registered"] as! Bool)
             let session = parsedResult["session"] as? [AnyHashable: Any]
             self.sessionID = session!["id"] as? String
             
             if registered == true {
-                print("UdacClient ok")
                 completionHandlerForAuth(true, "")
             }
-            print(parsedResult)
             print(self.accountKey!)
             print(self.sessionID!)
         }
@@ -114,6 +119,47 @@ class UdacClient: NSObject {
                 completionHandlerForLogout(true, "success")
             }
             print(String(data: outcome, encoding: .utf8)!)
+        }
+        task.resume()
+    }
+    
+    func getUser(completionHandlerForGet: @escaping (_ success: Bool, _ student: StudentInfo?, _ errorString: String?) -> Void){
+        guard let userId = self.accountKey else {
+            completionHandlerForGet(false, nil, "No UserId")
+            return
+        }
+        let requestUrl = udacUserUrl + "\(userId)"
+        var request = URLRequest(url: URL(string: requestUrl)!)
+        request.httpMethod = "GET"
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                self.displayError("There was an error with your request: \(String(describing: error))")
+                completionHandlerForGet(false, nil, error as? String)
+                return
+            }
+            
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                self.displayError("No data was returned by the request!")
+                completionHandlerForGet(false, nil, error as? String)
+                return
+            }
+            let usableData = self.subsetData(data)
+            let parsedResult: [AnyHashable: Any]
+            do {
+                parsedResult = try JSONSerialization.jsonObject(with: usableData, options: .allowFragments) as! [AnyHashable: Any]  
+            } catch {
+                self.displayError("Could not parse the data as JSON: '\(usableData)'")
+                completionHandlerForGet(false, nil, error as? String)
+                return
+            }
+            let student = StudentInfo(dictionary: [
+                "uniqueKey" : String(self.accountKey!) as AnyObject,
+                "lastName" : parsedResult["last_name"] as AnyObject,
+                "firstName" : parsedResult["first_name"] as AnyObject])
+            completionHandlerForGet(true, student, nil)
         }
         task.resume()
     }

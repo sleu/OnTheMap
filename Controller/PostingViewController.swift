@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 class PostingViewController: UIViewController {
     
@@ -16,7 +17,6 @@ class PostingViewController: UIViewController {
     var urlTextField: UITextField {return postingView.urlTextField}
     var findLocationButton: UIButton {return postingView.findLocationButton}
     var keyboardOnScreen = false
-    var newStudent = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,16 +47,7 @@ class PostingViewController: UIViewController {
             displayNotification("URL is missing")
             return
         }
-        guard let validUrl = URL(string: url), UIApplication.shared.canOpenURL(validUrl) else {
-            displayNotification("Invalid URL")
-            return
-        }
-        if newStudent {
-            //TODO: ParseClient.newpoststudent
-        } else{
-            //TODO: ParseClient updateputstudent
-        }
-        print("finding")
+        geocode(location)
     }
     
     func loadNavigationBar() {
@@ -69,12 +60,31 @@ class PostingViewController: UIViewController {
     }
     
     @objc func cancel(){
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
-    func displayLocation(){
-        //TODO: mapcode and finish - new screen
-        self.dismiss(animated: true, completion: nil)
+    func geocode(_ location: String){
+        let gc = CLGeocoder()
+        gc.geocodeAddressString(location) { (placemark, error) in
+            if error != nil {
+                self.displayNotification(error as! String)
+                return
+            }
+            guard let pm = placemark else {
+                return
+            }
+            if pm.count <= 0 {
+                self.displayNotification(error as! String)
+                return
+            }
+            let selectedLoc = pm[0].location?.coordinate
+            let newVC = PostingMapController()
+            newVC.selectedLoc = selectedLoc!
+            newVC.locTitle = location
+            newVC.url = self.urlTextField.text!
+            self.navigationController?.pushViewController(newVC, animated: true)
+        }
+        
     }
     
     func displayNotification(_ error: String){

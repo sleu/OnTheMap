@@ -20,8 +20,8 @@ class PostingView: UIView {
     let title = "Add Location"
     
     private enum Text: String{
-        case location = "Atlanta, GA"
-        case website = "http://www.google.com"
+        case location = "Enter your location"
+        case website = "Enter your link"
         case find = "FIND LOCATION"
     }
     
@@ -82,7 +82,7 @@ class PostingView: UIView {
     }
     
     func cancelButton() -> UIBarButtonItem {
-        let cancel = UIBarButtonItem(title: "CANCEL", style: .plain, target: nil, action: nil)
+        let cancel = UIBarButtonItem(title: "Cancel", style: .plain, target: nil, action: nil)
         return cancel
     }
 }

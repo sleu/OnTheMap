@@ -29,6 +29,7 @@ struct StudentInfo {
         self.latitude = dictionary["latitude"] as? Double ?? 0.0
         self.longitude = dictionary["longitude"] as? Double ?? 0.0
     }
+    
 }
 
 

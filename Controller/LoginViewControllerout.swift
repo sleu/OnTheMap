@@ -46,7 +46,7 @@ class LoginViewController: UIViewController {
                     self.switchToMain()}
             } else {
                 DispatchQueue.main.async {
-                    self.displayNotification("Incorrect Login")}
+                    self.displayNotification(errorMessage!)}
             }
         }
     }

@@ -8,14 +8,7 @@
 
 import UIKit
 import MapKit
-/**
- TODO:
- - load 100 latest pins
- - tap a pin displays pin annotation popup
- - tapping anywhere in annotation loads safari
- - tapping outside of annotation dismiss/hide
- 
- **/
+
 class MapsViewController: UIViewController, MKMapViewDelegate{
     
     let mapView = MKMapView()
@@ -80,5 +73,28 @@ class MapsViewController: UIViewController, MKMapViewDelegate{
         self.present(alert, animated: true)
     }
     
-    //TODO: OPEN PIN TO WEBSITE
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let reuseId = "pin"
+        
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.canShowCallout = true
+            pinView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        }
+        else {
+            pinView!.annotation = annotation
+        }
+        return pinView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if control == view.rightCalloutAccessoryView {
+            let app = UIApplication.shared
+            if let toOpen = view.annotation?.subtitle! {
+                app.open(URL(string: toOpen)!, options: [:], completionHandler: nil)
+            }
+        }
+    }
 }

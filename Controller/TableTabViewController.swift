@@ -53,7 +53,24 @@ class TableTabViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     func update(){
-        arrayData = Storage.data
-        self.tableView.reloadData()
+        ParseClient.sharedInstance.getStudents(){ (success, students, error) in
+            if success {
+                DispatchQueue.main.async {
+                    if students != nil {
+                        self.arrayData = Storage.data
+                        self.tableView.reloadData()
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.displayNotification(error!)}
+            }
+        }
+    }
+    
+    func displayNotification(_ error: String){
+        let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true)
     }
 }

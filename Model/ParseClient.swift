@@ -98,8 +98,7 @@ class ParseClient: NSObject {
         task.resume()
     }
     
-    func newPostStudent(student: StudentInfo, completionHandlerPost: @escaping (_ success: Bool, _ error: String?) -> Void) {
-        //TODO: prepare studentinfo data
+    func postStudent(_ student: StudentInfo, completionHandlerPost: @escaping (_ success: Bool, _ error: String?) -> Void) {
         let request = prepareUrl(parseUrl, "{\"uniqueKey\": \"\(student.uniqueKey)\", \"firstName\": \"\(student.firstName)\", \"lastName\": \"\(student.lastName)\",\"mapString\": \"\(student.mapString)\", \"mediaURL\": \"\(student.mediaURL)\",\"latitude\": \(student.latitude), \"longitude\": \(student.longitude)}", Text.post.rawValue)
         let task = session.dataTask(with: request) {data, response, error in
             /* GUARD: Was there an error? */
@@ -115,24 +114,24 @@ class ParseClient: NSObject {
                 completionHandlerPost(false, "No data returned")
                 return
             }
-            
-            do{ //TODO: complete
-                let results = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: AnyObject]
-                if let parsedResults = results["results"]{
-                    for details in parsedResults as! [[String: AnyObject]]{
-                        completionHandlerPost(true, nil)
-                    }
-                }
+            let json: [AnyHashable: Any]
+            do {
+                json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [AnyHashable: Any]
+            } catch {
+                self.displayError("Could not parse the data as JSON: '\(data)'")
+                completionHandlerPost(false, "Corrupt Data")
+                return
             }
-            catch {
-                completionHandlerPost(false, error as? String)
-            }
+            let objectId = json["objectId"] as! String
+            Storage.objectId = objectId
+            completionHandlerPost(true, nil)
+
         }
         task.resume()
     }
     
-    func updatePutStudent(student: StudentInfo, completionHandlerPut: @escaping (_ success: Bool, _ error: String?) -> Void){
-        let putURL = parseUrl + student.objectId
+    func putStudent(_ student: StudentInfo, completionHandlerPut: @escaping (_ success: Bool, _ error: String?) -> Void){
+        let putURL = parseUrl + "/\(Storage.objectId)"
         let request = prepareUrl(putURL, "{\"uniqueKey\": \"\(student.uniqueKey)\", \"firstName\": \"\(student.firstName)\", \"lastName\": \"\(student.lastName)\",\"mapString\": \"\(student.mapString)\", \"mediaURL\": \"\(student.mediaURL)\",\"latitude\": \(student.latitude), \"longitude\": \(student.longitude)}", Text.put.rawValue)
         let task = session.dataTask(with: request) {data, response, error in
             /* GUARD: Was there an error? */
@@ -148,17 +147,16 @@ class ParseClient: NSObject {
                 completionHandlerPut(false, "No data returned")
                 return
             }
-            
-            do{ //TODO: complete
-                let results = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: AnyObject]
-                if let parsedResults = results["results"]{
-                    for details in parsedResults as! [[String: AnyObject]]{
-                        completionHandlerPut(true, nil)
-                    }
-                }
+            let json: AnyObject!
+            do {
+                json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
+            } catch {
+                self.displayError("Could not parse the data as JSON: '\(data)'")
+                completionHandlerPut(false, "Corrupt Data")
+                return
             }
-            catch {
-                completionHandlerPut(false, error as? String)
+            if (json["updatedAt"]) != nil {
+                completionHandlerPut(true, nil)
             }
         }
         task.resume()
@@ -171,7 +169,8 @@ class ParseClient: NSObject {
             studentsUrl = studentsUrl + params
             request = URLRequest(url: URL(string: studentsUrl)!)
         } else {
-            request.httpBody = params.data(using: String.Encoding.utf8)
+            request.httpBody = params.data(using: .utf8)
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         }
         request.httpMethod = method
         request.addValue(appId, forHTTPHeaderField: "X-Parse-Application-Id")

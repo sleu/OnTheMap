@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A93A29DA21B9E8EC004215D9 /* PostingMapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93A29D921B9E8EC004215D9 /* PostingMapController.swift */; };
+		A93A29DC21B9EC4D004215D9 /* PostingMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93A29DB21B9EC4D004215D9 /* PostingMap.swift */; };
 		A96C250B21B5F1B300EB2861 /* PostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C250A21B5F1B300EB2861 /* PostingView.swift */; };
 		A9A3DC8821B5ED4C00F6F7D6 /* PostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A3DC8721B5ED4C00F6F7D6 /* PostingViewController.swift */; };
 		A9B1070D21B5F05000B7211D /* LoginViewControllerout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B1070C21B5F05000B7211D /* LoginViewControllerout.swift */; };
@@ -25,6 +27,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A93A29D921B9E8EC004215D9 /* PostingMapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingMapController.swift; sourceTree = "<group>"; };
+		A93A29DB21B9EC4D004215D9 /* PostingMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingMap.swift; sourceTree = "<group>"; };
 		A96C250A21B5F1B300EB2861 /* PostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingView.swift; sourceTree = "<group>"; };
 		A9A3DC8721B5ED4C00F6F7D6 /* PostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingViewController.swift; sourceTree = "<group>"; };
 		A9B1070C21B5F05000B7211D /* LoginViewControllerout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewControllerout.swift; sourceTree = "<group>"; };
@@ -100,6 +104,7 @@
 				A9B1070C21B5F05000B7211D /* LoginViewControllerout.swift */,
 				A9B99ED6219F757B00D78218 /* MainViewController.swift */,
 				A9B99EDA219F7EFD00D78218 /* MapsViewController.swift */,
+				A93A29D921B9E8EC004215D9 /* PostingMapController.swift */,
 				A9B99EDC219F7F1F00D78218 /* TableTabViewController.swift */,
 				A9A3DC8721B5ED4C00F6F7D6 /* PostingViewController.swift */,
 			);
@@ -120,6 +125,7 @@
 				A9B99ECD219BA31900D78218 /* LoginView.swift */,
 				A9B99EE021A4A36700D78218 /* MainView.swift */,
 				A96C250A21B5F1B300EB2861 /* PostingView.swift */,
+				A93A29DB21B9EC4D004215D9 /* PostingMap.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -220,8 +226,10 @@
 				A9B99ED1219CB4F700D78218 /* UdacClient.swift in Sources */,
 				A9B99EDD219F7F1F00D78218 /* TableTabViewController.swift in Sources */,
 				A9B99ECE219BA31900D78218 /* LoginView.swift in Sources */,
+				A93A29DC21B9EC4D004215D9 /* PostingMap.swift in Sources */,
 				A9B99EAD219A15CE00D78218 /* AppDelegate.swift in Sources */,
 				A96C250B21B5F1B300EB2861 /* PostingView.swift in Sources */,
+				A93A29DA21B9E8EC004215D9 /* PostingMapController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

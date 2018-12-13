@@ -10,4 +10,5 @@ import Foundation
 
 struct Storage {
     static var data = [StudentInfo]()
+    static var objectId = ""
 }
