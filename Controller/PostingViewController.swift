@@ -16,7 +16,6 @@ class PostingViewController: UIViewController {
     var locationTextField: UITextField {return postingView.locationTextField}
     var urlTextField: UITextField {return postingView.urlTextField}
     var findLocationButton: UIButton {return postingView.findLocationButton}
-    var keyboardOnScreen = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,8 +25,6 @@ class PostingViewController: UIViewController {
         findLocationButton.addTarget(self, action: #selector(PostingViewController.findLocation), for: .touchDown)
         subscribeToNotification(UIResponder.keyboardWillShowNotification, selector: #selector(keyboardWillShow))
         subscribeToNotification(UIResponder.keyboardWillHideNotification, selector: #selector(keyboardWillHide))
-        subscribeToNotification(UIResponder.keyboardDidShowNotification, selector: #selector(keyboardDidShow))
-        subscribeToNotification(UIResponder.keyboardDidHideNotification, selector: #selector(keyboardDidHide))
         loadNavigationBar()
     }
     
@@ -37,7 +34,7 @@ class PostingViewController: UIViewController {
     }
     
     @objc func findLocation() {
-        let location = locationTextField.text!
+        let location = locationTextField.text!.trimmingCharacters(in: .whitespaces)
         let url = urlTextField.text!
         guard (!location.isEmpty) else {
             displayNotification("Location is missing")
@@ -64,17 +61,18 @@ class PostingViewController: UIViewController {
     }
     
     func geocode(_ location: String){
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let gc = CLGeocoder()
         gc.geocodeAddressString(location) { (placemark, error) in
             if error != nil {
-                self.displayNotification(error as! String)
+                self.displayNotification(error?.localizedDescription ?? "Unable to find location")
                 return
             }
             guard let pm = placemark else {
                 return
             }
             if pm.count <= 0 {
-                self.displayNotification(error as! String)
+                self.displayNotification(error?.localizedDescription ?? "Unable to find location")
                 return
             }
             let selectedLoc = pm[0].location?.coordinate
@@ -82,6 +80,7 @@ class PostingViewController: UIViewController {
             newVC.selectedLoc = selectedLoc!
             newVC.locTitle = location
             newVC.url = self.urlTextField.text!
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             self.navigationController?.pushViewController(newVC, animated: true)
         }
         
@@ -98,6 +97,7 @@ extension PostingViewController: UITextFieldDelegate {
     // MARK: UITextFieldDelegate
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
         textField.resignFirstResponder()
         return true
     }
@@ -105,23 +105,11 @@ extension PostingViewController: UITextFieldDelegate {
     // MARK: Show/Hide Keyboard
     
     @objc func keyboardWillShow(_ notification: Notification) {
-        if !keyboardOnScreen {
-            view.frame.origin.y = -findLocationButton.frame.origin.y+50
-        }
+        view.frame.origin.y = -findLocationButton.frame.origin.y+50
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
-        if keyboardOnScreen {
-            view.frame.origin.y = 0
-        }
-    }
-    
-    @objc func keyboardDidShow(_ notification: Notification) {
-        keyboardOnScreen = true
-    }
-    
-    @objc func keyboardDidHide(_ notification: Notification) {
-        keyboardOnScreen = false
+        view.frame.origin.y = 0
     }
     
     func keyboardHeight(_ notification: Notification) -> CGFloat {

@@ -39,16 +39,19 @@ class MapsViewController: UIViewController, MKMapViewDelegate{
     }
     
     func loadData() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         ParseClient.sharedInstance.getStudents(){ (success, students, error) in
             if success {
                 DispatchQueue.main.async {
                     if let students = students {
                         Storage.data = students
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         self.update()
                     }
                 }
             } else {
                 DispatchQueue.main.async {
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     self.displayNotification(error!)}
             }
         }

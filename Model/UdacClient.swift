@@ -16,16 +16,10 @@ class UdacClient: NSObject {
     var accountKey: Int? = nil
     let udacUrl = "https://onthemap-api.udacity.com/v1/session"
     let udacUserUrl = "https://onthemap-api.udacity.com/v1/users/"
-    //let noStudent: StudentInfo = nil
-    //let udacUrl = "https://www.udacity.com/api/session"
     static let sharedInstance = UdacClient()
     
     override init() {
         super.init()
-    }
-    
-    func displayError(_ error: String) {
-        print(error)
     }
     
     func authenticateUser(_ email:String, _ password:String, completionHandlerForAuth: @escaping (_ success: Bool, _ errorString: String?) -> Void){
@@ -38,15 +32,13 @@ class UdacClient: NSObject {
             
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                self.displayError("There was an error with your request: \(String(describing: error))")
-                completionHandlerForAuth(false, "Login Error")
+                completionHandlerForAuth(false, error?.localizedDescription)
                 return
             }
             
             /* GUARD: Was there any data returned? */
             guard let data = data else {
-                self.displayError("No data was returned by the request!")
-                completionHandlerForAuth(false, "Login Error")
+                completionHandlerForAuth(false, error?.localizedDescription)
                 return
             }
             let usableData = self.subsetData(data)
@@ -54,13 +46,12 @@ class UdacClient: NSObject {
             do {
                 parsedResult = try JSONSerialization.jsonObject(with: usableData, options: .allowFragments) as AnyObject
             } catch {
-                self.displayError("Could not parse the data as JSON: '\(usableData)'")
-                completionHandlerForAuth(false, "Login Error")
+                completionHandlerForAuth(false, error.localizedDescription)
                 return
             }
             let account = parsedResult["account"] as? [AnyHashable: Any]
             if account == nil {
-                completionHandlerForAuth(false, "Invalid Login")
+                completionHandlerForAuth(false, error?.localizedDescription)
                 return
             }
             
@@ -92,14 +83,12 @@ class UdacClient: NSObject {
         let task = session.dataTask(with: request) { data, response, error in
             
             guard (error == nil) else {
-                self.displayError("There was an error with your request: \(String(describing: error))")
-                completionHandlerForLogout(false, "Logout Error")
+                completionHandlerForLogout(false, error?.localizedDescription)
                 return
             }
             
             guard let data = data else {
-                self.displayError("No data was returned by the request!")
-                completionHandlerForLogout(false, "Logout Error")
+                completionHandlerForLogout(false, error?.localizedDescription)
                 return
             }
             let outcome = self.subsetData(data)
@@ -107,8 +96,7 @@ class UdacClient: NSObject {
             do {
                 parsedOutcome = try JSONSerialization.jsonObject(with: outcome, options: .allowFragments) as AnyObject
             } catch {
-                self.displayError("Could not parse the data as JSON: '\(outcome)'")
-                completionHandlerForLogout(false, "Logout Error")
+                completionHandlerForLogout(false, error.localizedDescription)
                 return
             }
             let session = parsedOutcome["session"] as? [AnyHashable: Any]
@@ -135,15 +123,13 @@ class UdacClient: NSObject {
             
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                self.displayError("There was an error with your request: \(String(describing: error))")
-                completionHandlerForGet(false, nil, error as? String)
+                completionHandlerForGet(false, nil, error?.localizedDescription)
                 return
             }
             
             /* GUARD: Was there any data returned? */
             guard let data = data else {
-                self.displayError("No data was returned by the request!")
-                completionHandlerForGet(false, nil, error as? String)
+                completionHandlerForGet(false, nil, error?.localizedDescription)
                 return
             }
             let usableData = self.subsetData(data)
@@ -151,8 +137,7 @@ class UdacClient: NSObject {
             do {
                 parsedResult = try JSONSerialization.jsonObject(with: usableData, options: .allowFragments) as! [AnyHashable: Any]  
             } catch {
-                self.displayError("Could not parse the data as JSON: '\(usableData)'")
-                completionHandlerForGet(false, nil, error as? String)
+                completionHandlerForGet(false, nil, error.localizedDescription)
                 return
             }
             let student = StudentInfo(dictionary: [

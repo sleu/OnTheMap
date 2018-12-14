@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Storage {
+class Storage {
     static var data = [StudentInfo]()
     static var objectId = ""
 }

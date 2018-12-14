@@ -90,14 +90,17 @@ class PostingMapController: UIViewController, MKMapViewDelegate{
             "mediaURL": String(url) as AnyObject,
             "latitude": selectedLoc.latitude as AnyObject,
             "longitude": selectedLoc.longitude as AnyObject])
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         if Storage.objectId == "" { //post new student
             ParseClient.sharedInstance.postStudent(prepStudent){ (success, errorMessage) in
                 if success {
                     DispatchQueue.main.async {
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         self.complete()
                     }
                 } else {
                     DispatchQueue.main.async {
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         self.displayNotification(errorMessage!)}
                     }
                 }
@@ -105,10 +108,12 @@ class PostingMapController: UIViewController, MKMapViewDelegate{
             ParseClient.sharedInstance.putStudent(prepStudent){ (success, errorMessage) in
                 if success {
                     DispatchQueue.main.async {
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         self.complete()
                     }
                 } else {
                     DispatchQueue.main.async {
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         self.displayNotification(errorMessage!)}
                 }
             }

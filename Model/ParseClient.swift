@@ -16,7 +16,7 @@ class ParseClient: NSObject {
     let parseUrl = "https://parse.udacity.com/parse/classes/StudentLocation"
     let session = URLSession.shared
     let limit = 100
-    let order = "-UpdatedAt"
+    let order = "-updatedAt"
     static let sharedInstance = ParseClient()
     private enum Text: String{
         case get = "GET"
@@ -28,24 +28,18 @@ class ParseClient: NSObject {
         super.init()
     }
     
-    func displayError(_ error: String) {
-        print(error)
-    }
-    
     func getStudents(completionHandlerStudents: @escaping (_ success: Bool, _ students: [StudentInfo]?, _ error: String?) -> Void) {
         let request = prepareUrl(parseUrl, "?limit=\(limit)&order=\(order)", Text.get.rawValue)
         let task = session.dataTask(with: request) {data, response, error in
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                self.displayError("There was an error with your request: \(String(describing: error))")
-                completionHandlerStudents(false, nil, error as? String)
+                completionHandlerStudents(false, nil, error?.localizedDescription)
                 return
             }
             
             /* GUARD: Was there any data returned? */
             guard let data = data else {
-                self.displayError("No data was returned by the request!")
-                completionHandlerStudents(false, nil, "No data returned")
+                completionHandlerStudents(false, nil, error?.localizedDescription)
                 return
             }
             
@@ -60,7 +54,7 @@ class ParseClient: NSObject {
                 }
             }
             catch {
-                completionHandlerStudents(false, nil, error as? String)
+                completionHandlerStudents(false, nil, error.localizedDescription)
             }
         }
         task.resume()
@@ -71,15 +65,13 @@ class ParseClient: NSObject {
         let task = session.dataTask(with: request) {data, response, error in
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                self.displayError("There was an error with your request: \(String(describing: error))")
-                completionHandlerStudent(false, nil, error as? String)
+                completionHandlerStudent(false, nil, error?.localizedDescription)
                 return
             }
             
             /* GUARD: Was there any data returned? */
             guard let data = data else {
-                self.displayError("No data was returned by the request!")
-                completionHandlerStudent(false, nil, "No data returned")
+                completionHandlerStudent(false, nil, error?.localizedDescription)
                 return
             }
             
@@ -92,7 +84,7 @@ class ParseClient: NSObject {
                 }
             }
             catch {
-                completionHandlerStudent(false, nil, error as? String)
+                completionHandlerStudent(false, nil, error.localizedDescription)
             }
         }
         task.resume()
@@ -103,23 +95,20 @@ class ParseClient: NSObject {
         let task = session.dataTask(with: request) {data, response, error in
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                self.displayError("There was an error with your request: \(String(describing: error))")
-                completionHandlerPost(false, error as? String)
+                completionHandlerPost(false, error?.localizedDescription)
                 return
             }
             
             /* GUARD: Was there any data returned? */
             guard let data = data else {
-                self.displayError("No data was returned by the request!")
-                completionHandlerPost(false, "No data returned")
+                completionHandlerPost(false, error?.localizedDescription)
                 return
             }
             let json: [AnyHashable: Any]
             do {
                 json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [AnyHashable: Any]
             } catch {
-                self.displayError("Could not parse the data as JSON: '\(data)'")
-                completionHandlerPost(false, "Corrupt Data")
+                completionHandlerPost(false, error.localizedDescription)
                 return
             }
             let objectId = json["objectId"] as! String
@@ -136,23 +125,20 @@ class ParseClient: NSObject {
         let task = session.dataTask(with: request) {data, response, error in
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                self.displayError("There was an error with your request: \(String(describing: error))")
-                completionHandlerPut(false, error as? String)
+                completionHandlerPut(false, error?.localizedDescription)
                 return
             }
             
             /* GUARD: Was there any data returned? */
             guard let data = data else {
-                self.displayError("No data was returned by the request!")
-                completionHandlerPut(false, "No data returned")
+                completionHandlerPut(false, error?.localizedDescription)
                 return
             }
             let json: AnyObject!
             do {
                 json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
             } catch {
-                self.displayError("Could not parse the data as JSON: '\(data)'")
-                completionHandlerPut(false, "Corrupt Data")
+                completionHandlerPut(false, error.localizedDescription)
                 return
             }
             if (json["updatedAt"]) != nil {

@@ -45,11 +45,15 @@ class MainViewController: UITabBarController {
     }
     
     @objc func logout() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         UdacClient.sharedInstance.logout() { (success, errorMessage) in
             if success {
                 DispatchQueue.main.async {
-                    self.goToLogin()}
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    self.goToLogin()
+                }
             } else {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 self.displayNotification(errorMessage!)
             }
         }

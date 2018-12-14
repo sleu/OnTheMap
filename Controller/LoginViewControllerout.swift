@@ -15,7 +15,6 @@ class LoginViewController: UIViewController {
     var passwordField: UITextField {return loginView.passwordField}
     var loginButton: UIButton {return loginView.loginButton}
     var signupView: UIView {return loginView.signupView}
-    var keyboardOnScreen = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,28 +24,33 @@ class LoginViewController: UIViewController {
         loginButton.addTarget(self, action: #selector(LoginViewController.loginPressed), for: .touchDown)
         subscribeToNotification(UIResponder.keyboardWillShowNotification, selector: #selector(keyboardWillShow))
         subscribeToNotification(UIResponder.keyboardWillHideNotification, selector: #selector(keyboardWillHide))
-        subscribeToNotification(UIResponder.keyboardDidShowNotification, selector: #selector(keyboardDidShow))
-        subscribeToNotification(UIResponder.keyboardDidHideNotification, selector: #selector(keyboardDidHide))
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         unsubscribeFromAllNotifications()
     }
-
+    
     @objc func loginPressed() {
-        guard !emailField.text!.isEmpty && !passwordField.text!.isEmpty else {
+        let email = emailField.text!.trimmingCharacters(in: .whitespaces)
+        let password = passwordField.text!.trimmingCharacters(in: .whitespaces)
+        guard !email.isEmpty && !password.isEmpty else {
             self.displayNotification("Email or Password is missing")
             return
         }
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         UdacClient.sharedInstance.authenticateUser(emailField.text!, passwordField.text!) { (success, errorMessage) in
             if success {
                 DispatchQueue.main.async {
                     self.clearText()
-                    self.switchToMain()}
+                    self.switchToMain()
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                }
             } else {
                 DispatchQueue.main.async {
-                    self.displayNotification(errorMessage!)}
+                    self.displayNotification(errorMessage ?? "Incorrect Username or Password")
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                }
             }
         }
     }
@@ -72,6 +76,7 @@ extension LoginViewController: UITextFieldDelegate {
     // MARK: UITextFieldDelegate
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
         textField.resignFirstResponder()
         return true
     }
@@ -79,23 +84,12 @@ extension LoginViewController: UITextFieldDelegate {
     // MARK: Show/Hide Keyboard
     
     @objc func keyboardWillShow(_ notification: Notification) {
-        if !keyboardOnScreen {
-            view.frame.origin.y = -signupView.frame.origin.y+50
-        }
+        view.frame.origin.y = -signupView.frame.origin.y+80
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
-        if keyboardOnScreen {
-            view.frame.origin.y = 0
-        }
-    }
-    
-    @objc func keyboardDidShow(_ notification: Notification) {
-        keyboardOnScreen = true
-    }
-    
-    @objc func keyboardDidHide(_ notification: Notification) {
-        keyboardOnScreen = false
+        view.frame.origin.y = 0
+        
     }
     
     func keyboardHeight(_ notification: Notification) -> CGFloat {

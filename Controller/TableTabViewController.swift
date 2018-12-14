@@ -53,16 +53,19 @@ class TableTabViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     func update(){
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         ParseClient.sharedInstance.getStudents(){ (success, students, error) in
             if success {
                 DispatchQueue.main.async {
                     if students != nil {
                         self.arrayData = Storage.data
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         self.tableView.reloadData()
                     }
                 }
             } else {
                 DispatchQueue.main.async {
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     self.displayNotification(error!)}
             }
         }
